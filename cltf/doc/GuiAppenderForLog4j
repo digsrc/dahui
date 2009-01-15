@@ -1,0 +1,15 @@
+
+1. 创建一个 interface ILogRecorder，这个接口标识哪个GUI类最为appender用来显示log。
+	此接口只有一个方法： public void appendLogMsg(String logMsg);
+	
+2. 创建自定义的GUI appender类：public class LogGuiAppender extends AppenderSkeleton。
+         这个类将被加入到Log4j的appender集合中。
+
+3. 在你的应用中找到一个GUI类实现接口ILogRecorder。并在此类构造过程中通过类似下面的代码把自定义的appender加入到Log4j的appender集合中。
+        Logger root = Logger.getRootLogger();
+        Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
+        final LogGuiAppender guiLogger = new LogGuiAppender(this);
+        guiLogger.setLayout(layout);
+        root.addAppender(guiLogger);
+   		
+   		//TODO 把guiLogger 加入到另外的Logger。
