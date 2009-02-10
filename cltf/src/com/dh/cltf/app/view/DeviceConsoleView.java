@@ -59,15 +59,11 @@ public class DeviceConsoleView extends ViewPart implements ILogListener{
         
 
         
-        
 		clearAction = new Action() {
 			public void run() {
 				msgBox.setText("");
 				dslam_Log.debug("Clear Action is clicked.");
-				
-				Exception e = new Exception("My exception.");
-				n2x_Log.warn("from n2x device." , e);
-				n2x_Log.trace("from n2x device", e);
+				n2x_Log.warn("from n2x device.");
 //				LogGenerator genLogThread = new LogGenerator("genLog-Thread");
 //				genLogThread.start();
 			}
@@ -94,13 +90,16 @@ public class DeviceConsoleView extends ViewPart implements ILogListener{
 	 * @param appenderName
 	 */
 	public void initLogAppender(String[] loggerNames) {
+		// Create appender instance.
 		SimpleLogAppender appender = SimpleLogAppender.getInstance();
 		appender.setLogListener(this);
 		
+		// Create/Get logger
 		Logger[] loggers = new Logger[loggerNames.length];
 		for (int i = 0; i < loggerNames.length; i ++) {
 			loggers[i] = Logger.getLogger(loggerNames[i]);
 			loggers[i].setLevel(Level.ALL);
+			// set the appender to the logger.
 			loggers[i].addAppender(appender);
 		}
     }

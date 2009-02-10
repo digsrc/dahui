@@ -15,7 +15,7 @@ public class LogGenerator extends Thread {
 		super(tname);
 	}
 	
-	public static void genLog() { 
+	public static void genLog() {
 		System.out.println("====genLog");
 		Date now = new Date();
 		System.out.println(now);
