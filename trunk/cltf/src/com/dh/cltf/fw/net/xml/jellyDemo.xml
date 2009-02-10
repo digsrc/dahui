@@ -1,0 +1,11 @@
+<j:jelly xmlns:j="jelly:core" xmlns:define="jelly:define" xmlns:my="myTagLib">
+
+  <define:taglib uri="myTagLib">
+    <define:jellybean name="foo" className="com.dh.cltf.fw.net.xml.MyTask"/>
+  </define:taglib>
+
+  Now lets use the new tag
+  
+  <my:foo x="2" y="cheese"/>
+
+</j:jelly>
