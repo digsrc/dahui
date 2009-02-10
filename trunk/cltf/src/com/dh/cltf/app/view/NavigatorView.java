@@ -11,6 +11,12 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+//import org.eclipse.ui.console.ConsolePlugin;
+//import org.eclipse.ui.console.IConsole;
+//import org.eclipse.ui.console.IConsoleManager;
+//import org.eclipse.ui.console.MessageConsole;
+//import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.part.ViewPart;
 
 public class NavigatorView extends ViewPart {
@@ -42,10 +48,6 @@ public class NavigatorView extends ViewPart {
 			public void run() {
 				Log.info("show console");
 				DebugLog.debug("Hello Iam debug log.");
-				
-				Exception e = new Exception("My exception.");
-				Log.warn("show console." , e);
-				
 //				IConsoleManager mgr = ConsolePlugin.getDefault().getConsoleManager();
 //				MessageConsole console = new MessageConsole("myconsole1", null);
 //				mgr.addConsoles(new IConsole[] {console});

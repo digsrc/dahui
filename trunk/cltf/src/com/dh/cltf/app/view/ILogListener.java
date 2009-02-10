@@ -8,4 +8,5 @@ public interface ILogListener {
 	public void initLogAppender(String[] loggerName);
 	
 	public void processLogMsg(String logMsg);
+	
 }
