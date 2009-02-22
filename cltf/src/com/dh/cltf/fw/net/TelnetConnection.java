@@ -66,7 +66,10 @@ public class TelnetConnection implements IConnection {
 			login();
 			
 			receiverThread = new ResponseReceiverThread(in);
-			receiverThread.addResponseListener(new DslamTelnetProtocol());
+			DslamTelnetProtocol protocolFilter = new DslamTelnetProtocol();
+			protocolFilter.setIn(in);
+			protocolFilter.setOut(out);
+			receiverThread.addResponseListener(protocolFilter);
 			receiverThread.start();
 			
 			synchronized (this) {
@@ -98,7 +101,7 @@ public class TelnetConnection implements IConnection {
 		tip = receiveText();
 		send(password);
 
-		tip = receiveText("switch> ");
+//		tip = receiveText("switch> ");
 
 		Log.info("login ok.");
 	}
@@ -107,7 +110,7 @@ public class TelnetConnection implements IConnection {
 		send("enable");
 //		receiveText();
 //
-//		send("show cli");
+		send("show list");
 //		receiveText();
 	}
 
@@ -234,26 +237,26 @@ public class TelnetConnection implements IConnection {
 		return sb.toString();
 	}
 
-	public String receiveText(String endFlagStr) {
-		StringBuilder sb = null;
-		try {
-			sb = new StringBuilder();
-
-			byte ch = (byte) in.read();
-			while (ch > 0) {
-				sb.append((char) ch);
-				if (sb.indexOf(endFlagStr) >= 0) {
-					break;
-				}
-				ch = (byte) in.read();
-			}
-		} catch (IOException e) {
-			Log.warn(e);
-		}
-
-		Log.debug("<----" + sb.toString());
-		return sb.toString();
-	}
+//	public String receiveText(String endFlagStr) {
+//		StringBuilder sb = null;
+//		try {
+//			sb = new StringBuilder();
+//
+//			byte ch = (byte) in.read();
+//			while (ch > 0) {
+//				sb.append((char) ch);
+//				if (sb.indexOf(endFlagStr) >= 0) {
+//					break;
+//				}
+//				ch = (byte) in.read();
+//			}
+//		} catch (IOException e) {
+//			Log.warn(e);
+//		}
+//
+//		Log.debug("<----" + sb.toString());
+//		return sb.toString();
+//	}
 
 	public void send(String message) {
 		out.println(message);
