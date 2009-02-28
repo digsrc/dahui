@@ -1,5 +1,7 @@
 package com.dh.cltf.fw.net;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,20 +18,23 @@ public class TestTelnetConnection {
 	private static String password;
 	
 	private static TelnetConnection telnetConnection = null;
+	private static WindowsTelnetStreamParser commandResultParser = new WindowsTelnetStreamParser();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ip = "172.18.103.14";
+		ip = "127.0.0.1";
 		port = 23;
-		userName = "root";
-		password = "vertex25";
 		
-		telnetConnection = new TelnetConnection(ip, port, userName, password);
+		telnetConnection = new TelnetConnection(ip, port);
+		telnetConnection.addReceiverLisetner(commandResultParser);
 	}
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		telnetConnection.disconnect();
+		while (telnetConnection.getState() != ConnectionStateEnum.CLOSE) {
+			Thread.sleep(1000);
+		}
+		telnetConnection.close();
 	}
 
 	@Before
@@ -41,31 +46,27 @@ public class TestTelnetConnection {
 	public void tearDown() throws Exception {
 	}
 	
+	
+	/**
+	 * Test the TelnetConnection's open() method.
+	 * 
+	 * @throws AppException
+	 */
 	@Test
 	public void testCreateTelnetConnection() throws AppException {
 		
-		telnetConnection.connect();
+		telnetConnection.open();
 
-		telnetConnection.enable();
-		
-		synchronized (this) {
-			try {
-				wait(1000 * 10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		assertEquals(telnetConnection.getState(), ConnectionStateEnum.CONNECTED);
 	}
 
-//	@Test
-//	public void testTelnetLogin() throws AppException {
-//		TelnetConnection telnetConnection = new TelnetConnection(ip, port);
-//		telnetConnection.connect();
-//		
-//		TelnetCommand command = new TelnetCommand("");
+	@Test
+	public void testTelnetLogin() throws AppException {
+		
+		TelnetCommand command = new TelnetCommand("");
 //		
 //		telnetConnection.send(message);
 //		
 //		telnetConnection.disconnect();
-//	}
+	}
 }

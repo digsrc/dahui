@@ -1,6 +1,6 @@
 package com.dh.cltf.fw.net;
 
-public interface IResponseListener {
+public interface IReceiverListener {
 
 	public void processResponseData(String message);
 	
