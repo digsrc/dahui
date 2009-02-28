@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.dh.cltf.fw.AppException;
 import com.dh.cltf.fw.command.TelnetCommand;
+import com.dh.cltf.fw.telnet.WindowsTelnetStreamParser;
 
 public class TestTelnetConnection {
 	private static String ip;

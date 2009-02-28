@@ -1,4 +1,4 @@
-package com.dh.cltf.fw.net;
+package com.dh.cltf.fw.telnet;
 
 
 /**
