@@ -1,5 +1,6 @@
-package com.dh.cltf.fw.net;
+package com.dh.cltf.fw.telnet;
 
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Hashtable;
 
@@ -7,10 +8,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.dh.cltf.fw.device.DslamModeEnum;
+import com.dh.cltf.fw.net.IReceiverListener;
 
-public class WindowsTelnetStreamParser implements IReceiverListener {
-	
-	private static final Log LOG = LogFactory.getLog(WindowsTelnetStreamParser.class);
+public class DslamTelnetStreamParser implements IReceiverListener {
+	private static final Log LOG = LogFactory.getLog(DslamTelnetStreamParser.class);
 	
 	public static final String DEVICE_TIP = "switch";
 	
@@ -28,6 +29,12 @@ public class WindowsTelnetStreamParser implements IReceiverListener {
 	}
 	
 	
+	public static final String LOGIN_USERNAME_TIP = "login: ";
+	public static final String LOGIN_PASSWORD_TIP = "Password: ";
+	
+	public static final String LOGIN_WELCOME_TIP = "Welcome to use BTAF:-)";
+	
+	
 	public static final String NEED_PAGEDOWN_FLAG_STR = "--More-- ";
 
 	private DslamModeEnum lastMode = DslamModeEnum.NOT_LOGIN;
@@ -40,7 +47,7 @@ public class WindowsTelnetStreamParser implements IReceiverListener {
 //	private InputStream in;
 	private PrintStream out;
 	
-	public WindowsTelnetStreamParser() {
+	public DslamTelnetStreamParser() {
 		
 	}
 	
@@ -50,26 +57,23 @@ public class WindowsTelnetStreamParser implements IReceiverListener {
 	}
 
 	public void processResponseData(char ch) {
+		//LOG.trace(ch);
+//		if ('#' == ch) {
+//			LOG.debug("----");
+//		}
 		inputCharacters.append(ch);
 		if (inputCharacters.length() > INPUT_BUFFER_SIZE) {
 			//TODO
 		}
 		
-		System.out.print(ch);
-		
+//		processPrint();
 		proceeMorePage();
 		detectCurrentMode();
 		getResult();
 	}
 	
-
-	private void isNeedInput() {
-		// Is login use name tip
-		if (isEndOf(inputCharacters, WindowsTelnetConstantData.LOGIN_USERNAME_TIP)) {
-			LOG.debug("login tip.  user name is need.");
-		}else if (isEndOf(inputCharacters, WindowsTelnetConstantData.LOGIN_PASSWORD_TIP)) {
-			LOG.debug("login tip.  password is need.");
-		}
+	public void detectFeedMore() {
+//		isEndOf();
 	}
 	
 	private boolean isEndOf(StringBuffer source, String str) {
@@ -87,13 +91,20 @@ public class WindowsTelnetStreamParser implements IReceiverListener {
 	
 	int lastLine = 0;
 	private void processPrint() {
-//		int index = inputCharacters.lastIndexOf("\r\n");
-//		int firstIndex = inputCharacters.length() - 2;
-//		if (index >= 0 && index == firstIndex) {
-//			String line = inputCharacters.substring(lastLine);
+//		int index1 = inputCharacters.lastIndexOf(PRIVILEGED_EXEC_MODE_FLAG_STR);
+//		int firstIndex1 = inputCharacters.length() - PRIVILEGED_EXEC_MODE_FLAG_STR.length();
+//		if (index1 >= 0 && index1 == firstIndex1) {
+//			inputCharacters.substring(index1);
 //			lastLine = index;
-//			System.out.println(line);
 //		}
+		
+		int index = inputCharacters.lastIndexOf("\r\n");
+		int firstIndex = inputCharacters.length() - 2;
+		if (index >= 0 && index == firstIndex) {
+			String line = inputCharacters.substring(lastLine);
+			lastLine = index;
+			System.out.println(line);
+		}
 	}
 	
 	private void proceeMorePage() {
