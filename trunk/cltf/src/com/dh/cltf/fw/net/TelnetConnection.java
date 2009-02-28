@@ -3,7 +3,6 @@ package com.dh.cltf.fw.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.net.SocketException;
 
 import org.apache.commons.logging.Log;
@@ -20,12 +19,15 @@ public class TelnetConnection implements IConnection {
 
 	private static final long TIMEOUT = 1000 * 60;
 
+	private ConnectionStateEnum state = ConnectionStateEnum.NOT_CONNECT;
+
 	private String ip;
 	private int port;
 	private String userName;
 	private String password;
 
-	ResponseReceiverThread receiverThread;
+	private IReceiverListener receiverListern;
+	private ResponseReceiverThread receiverThread;
 	private TelnetClient telnet;
 	private InputStream in;
 	private PrintStream out;
@@ -36,18 +38,25 @@ public class TelnetConnection implements IConnection {
 		super();
 		this.ip = ip;
 		this.port = port;
+		this.receiverThread = new ResponseReceiverThread();
 	}
-
+	
 	public TelnetConnection(String ip, int port, String userName,
 			String password) {
-		super();
-		this.ip = ip;
-		this.port = port;
+		this(ip, port);
 		this.userName = userName;
 		this.password = password;
 	}
 
-	public void connect() throws AppException {
+	public void addReceiverLisetner(IReceiverListener receiverListern) {
+		this.receiverListern = receiverListern;
+		receiverThread.addResponseListener(receiverListern);
+	}
+	
+	/**
+	 * Set the telnet client.
+	 */
+	private void initTelnetSetting() {
 		telnet = new TelnetClient();
 		try {
 			telnet.addOptionHandler(new SuppressGAOptionHandler(false, true,
@@ -57,29 +66,33 @@ public class TelnetConnection implements IConnection {
 		} catch (InvalidTelnetOptionException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Connect to the target machine with specified IP:Port. 
+	 * 
+	 * Before to call the open() method, a receiver listener must be set by using
+	 * addReceiverLisetner(IReceiverListener receiverListern). 
+	 */
+	public void open() throws AppException {
+		assert receiverListern == null : "Must set reciver listener to process the reponse.";
+		
+		initTelnetSetting();		
 		try {
-
 			Log.info("Trying to connect to " + ip + ":" + port);
-			telnet.connect(ip, port);
-			in = telnet.getInputStream();
-			out = new PrintStream(telnet.getOutputStream());
-			login();
 			
-			receiverThread = new ResponseReceiverThread(in);
-			DslamTelnetProtocol protocolFilter = new DslamTelnetProtocol();
-			protocolFilter.setIn(in);
-			protocolFilter.setOut(out);
-			receiverThread.addResponseListener(protocolFilter);
+			// telnet connect to device.
+			telnet.connect(ip, port);
+			
+			// get the telnet connection's input and output .
+			in = telnet.getInputStream();
+			receiverThread.setInputStream(in);
+			out = new PrintStream(telnet.getOutputStream());
+			
+			// start the thread to monitor the data from input stream. 
 			receiverThread.start();
 			
-			synchronized (this) {
-				try {
-					wait(1000 * 3);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-//			
+			state = ConnectionStateEnum.CONNECTED;
 			Log.info("Connected to " + ip + ":" + port + " OK.");
 		} catch (SocketException e) {
 			Log.error(e);
@@ -88,17 +101,13 @@ public class TelnetConnection implements IConnection {
 			Log.error(e);
 			throw new AppException("Create telnet connection exception.", e);
 		}
-		// catch (InvalidTelnetOptionException e) {
-		// Log.error(e);
-		// throw new AppException("Init Telnet connection exception.", e);
-		// }
 	}
 
 	private void login() {
-		String tip = receiveText();
+		String tip = receive();
 		send(userName);
 
-		tip = receiveText();
+		tip = receive();
 		send(password);
 
 //		tip = receiveText("switch> ");
@@ -114,7 +123,7 @@ public class TelnetConnection implements IConnection {
 //		receiveText();
 	}
 
-	public void disconnect() throws AppException {
+	public void close() throws AppException {
 		try {
 			if (receiverThread != null) {
 				receiverThread.setStopReceiver(true);
@@ -127,7 +136,7 @@ public class TelnetConnection implements IConnection {
 		}
 	}
 
-	public String receiveText() {
+	public String receive() {
 		synchronized (this) {
 			try {
 				wait(1000);
@@ -206,14 +215,6 @@ public class TelnetConnection implements IConnection {
 		int ret_read = 0;
 		int availableBytes = 0;
 		try {
-			// synchronized (this) {
-			// try {
-			// wait(500);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
 			while (in.available() > 0) {
 				int a = in.available();
 				byte[] buff = new byte[a];
@@ -221,15 +222,7 @@ public class TelnetConnection implements IConnection {
 				sb.append(new String(buff));
 				System.out.println(new String(buff));
 			}
-			// do {
-			// availableBytes = in.available();
-			// if (availableBytes >= 0) {
-			// ret_read = in.read(buff);
-			// }
-			// if (ret_read > 0) {
-			// System.out.print(new String(buff, 0, ret_read));
-			// }
-			// } while (ret_read >= 0);
+
 		} catch (IOException e) {
 			Log.warn(e);
 		}
@@ -237,27 +230,10 @@ public class TelnetConnection implements IConnection {
 		return sb.toString();
 	}
 
-//	public String receiveText(String endFlagStr) {
-//		StringBuilder sb = null;
-//		try {
-//			sb = new StringBuilder();
-//
-//			byte ch = (byte) in.read();
-//			while (ch > 0) {
-//				sb.append((char) ch);
-//				if (sb.indexOf(endFlagStr) >= 0) {
-//					break;
-//				}
-//				ch = (byte) in.read();
-//			}
-//		} catch (IOException e) {
-//			Log.warn(e);
-//		}
-//
-//		Log.debug("<----" + sb.toString());
-//		return sb.toString();
-//	}
 
+	
+	
+	
 	public void send(String message) {
 		out.println(message);
 		out.flush();
@@ -266,8 +242,14 @@ public class TelnetConnection implements IConnection {
 
 	public String send(String message, String endStrFlag) {
 		send(message, endStrFlag);
-		String resp = receiveText();
+		String resp = receive();
 		Log.debug(resp);
 		return resp;
 	}
+	
+	
+	public ConnectionStateEnum getState() {
+		return state;
+	}
+
 }

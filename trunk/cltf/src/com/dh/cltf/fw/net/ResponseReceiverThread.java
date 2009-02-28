@@ -14,19 +14,20 @@ public class ResponseReceiverThread extends Thread {
 	
 	private volatile boolean isStopReceiver;
 	
-	private Vector<IResponseListener> respListners = new Vector<IResponseListener>();
+	private Vector<IReceiverListener> respListners = new Vector<IReceiverListener>();
 	
-	public ResponseReceiverThread(InputStream in) {
-		super("TelnetReceiverThread");
-		this.in = in;
+	public ResponseReceiverThread() {
+		super("responseReceiver-Thread");
 	}
 	
 	public void run() {
+		assert in != null : "Input stream must be set!";
+		
 		Log.info("Telnet receiver thread started ... ");
 		try {
 			char ch = (char) in.read();
 			while (ch > 0 && ! isStopReceiver) {
-				for (IResponseListener l : respListners) {
+				for (IReceiverListener l : respListners) {
 					l.processResponseData(ch);
 				}
 				ch = (char) in.read();
@@ -37,11 +38,17 @@ public class ResponseReceiverThread extends Thread {
 		Log.info("Telnet receiver thread END ... ");
 	}
 
+	public void setInputStream(InputStream in) {
+		this.in = in;
+	}
+
 	public void setStopReceiver(boolean isStopReceiver) {
+		Log.info("Set flag to stop the response receiver thread.");
 		this.isStopReceiver = isStopReceiver;
 	}
 	
-	public void addResponseListener(IResponseListener listener) {
+	public void addResponseListener(IReceiverListener listener) {
+		Log.debug("addResponseListener " + listener);
 		respListners.add(listener);
 	}
 }
