@@ -31,9 +31,12 @@ public class ResponseReceiverThread extends Thread {
 					l.processResponseData(ch);
 				}
 				ch = (char) in.read();
+				System.out.print(ch);
 			}
-		} catch (IOException e) {
+		}catch (IOException e) {
 			Log.warn(e.getMessage());
+		}catch (Throwable t) {
+			Log.warn(t);
 		}
 		Log.info("Telnet receiver thread END ... ");
 	}
