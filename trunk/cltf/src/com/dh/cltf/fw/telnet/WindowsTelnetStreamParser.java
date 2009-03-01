@@ -56,11 +56,13 @@ public class WindowsTelnetStreamParser implements IReceiverListener {
 			//TODO
 		}
 		
-		System.out.print(ch);
+//		System.out.print(ch);
 		
-		proceeMorePage();
-		detectCurrentMode();
-		getResult();
+		isNeedInput();
+		
+//		proceeMorePage();
+//		detectCurrentMode();
+//		getResult();
 	}
 	
 
@@ -68,8 +70,12 @@ public class WindowsTelnetStreamParser implements IReceiverListener {
 		// Is login use name tip
 		if (isEndOf(inputCharacters, WindowsTelnetConstantData.LOGIN_USERNAME_TIP)) {
 			LOG.debug("login tip.  user name is need.");
+			out.println("dahui");
+			out.flush();
 		}else if (isEndOf(inputCharacters, WindowsTelnetConstantData.LOGIN_PASSWORD_TIP)) {
 			LOG.debug("login tip.  password is need.");
+			out.println("dahui");
+			out.flush();
 		}
 	}
 	
@@ -88,13 +94,13 @@ public class WindowsTelnetStreamParser implements IReceiverListener {
 	
 	int lastLine = 0;
 	private void processPrint() {
-//		int index = inputCharacters.lastIndexOf("\r\n");
-//		int firstIndex = inputCharacters.length() - 2;
-//		if (index >= 0 && index == firstIndex) {
-//			String line = inputCharacters.substring(lastLine);
-//			lastLine = index;
-//			System.out.println(line);
-//		}
+		int index = inputCharacters.lastIndexOf("\r\n");
+		int firstIndex = inputCharacters.length() - 2;
+		if (index >= 0 && index == firstIndex) {
+			String line = inputCharacters.substring(lastLine);
+			lastLine = index;
+			System.out.println(line);
+		}
 	}
 	
 	private void proceeMorePage() {

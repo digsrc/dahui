@@ -13,6 +13,7 @@ import org.apache.commons.net.telnet.SuppressGAOptionHandler;
 import org.apache.commons.net.telnet.TelnetClient;
 
 import com.dh.cltf.fw.AppException;
+import com.dh.cltf.fw.telnet.WindowsTelnetStreamParser;
 
 public class TelnetConnection implements IConnection {
 	private static final Log Log = LogFactory.getLog(TelnetConnection.class);
@@ -87,7 +88,11 @@ public class TelnetConnection implements IConnection {
 			// get the telnet connection's input and output .
 			in = telnet.getInputStream();
 			receiverThread.setInputStream(in);
+			
 			out = new PrintStream(telnet.getOutputStream());
+			
+			// TODO: hack code. !!!
+			((WindowsTelnetStreamParser) receiverListern).setOut(out);
 			
 			// start the thread to monitor the data from input stream. 
 			receiverThread.start();
@@ -124,6 +129,7 @@ public class TelnetConnection implements IConnection {
 	}
 
 	public void close() throws AppException {
+		Log.info("close()");
 		try {
 			if (receiverThread != null) {
 				receiverThread.setStopReceiver(true);

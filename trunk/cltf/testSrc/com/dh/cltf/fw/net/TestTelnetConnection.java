@@ -23,7 +23,7 @@ public class TestTelnetConnection {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ip = "127.0.0.1";
+		ip = "192.168.242.128";
 		port = 23;
 		
 		telnetConnection = new TelnetConnection(ip, port);
@@ -33,7 +33,7 @@ public class TestTelnetConnection {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		while (telnetConnection.getState() != ConnectionStateEnum.CLOSE) {
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 		}
 		telnetConnection.close();
 	}
