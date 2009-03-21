@@ -19,6 +19,7 @@ import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
 import com.dh.cltf.rcp.Activator;
+import com.dh.cltf.rcp.RcpConstant;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
@@ -77,7 +78,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	}
     	
     	public void run() {
-    		Activator.showPerspective(Constant.CONSOLE_PERSPECTIVE_ID);
+    		Activator.showPerspective(RcpConstant.CONSOLE_PERSPECTIVE_ID);
     	}
     }
 }

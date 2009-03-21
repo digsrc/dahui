@@ -8,6 +8,8 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.IViewDescriptor;
 
+import com.dh.cltf.rcp.RcpConstant;
+
 public class LogGuiAppender extends AppenderSkeleton {
 
 	protected ILogRecorder logRecoder;
@@ -18,7 +20,7 @@ public class LogGuiAppender extends AppenderSkeleton {
 	public LogGuiAppender() {
 		super();
 		
-		IViewDescriptor vd = PlatformUI.getWorkbench().getViewRegistry().find("com.dh.cltf.app.view.DeviceConsoleView");
+		IViewDescriptor vd = PlatformUI.getWorkbench().getViewRegistry().find(RcpConstant.DEVICE_CONSOLE_VIEW_ID);
 		if (vd instanceof ILogRecorder) {
 			logRecoder = (ILogRecorder) vd;
 		}
