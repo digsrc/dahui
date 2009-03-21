@@ -1,4 +1,4 @@
-package com.dh.cltf.app;
+package com.dh.cltf.rcp.app;
 
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;

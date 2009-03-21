@@ -1,10 +1,10 @@
-package com.dh.cltf.app.perspective;
+package com.dh.cltf.rcp.app.perspective;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
 
-import com.dh.cltf.app.Constant;
+import com.dh.cltf.rcp.app.Constant;
 
 public class ConsolePerspective implements IPerspectiveFactory {
 

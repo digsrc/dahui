@@ -1,4 +1,4 @@
-package com.dh.cltf.app;
+package com.dh.cltf.rcp.app;
 
 
 import org.eclipse.jface.action.Action;
