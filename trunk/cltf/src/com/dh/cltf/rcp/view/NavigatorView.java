@@ -1,4 +1,4 @@
-package com.dh.cltf.rcp.app.view;
+package com.dh.cltf.rcp.view;
 
 import java.util.Calendar;
 import java.util.Date;

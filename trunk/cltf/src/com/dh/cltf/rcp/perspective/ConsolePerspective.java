@@ -1,4 +1,4 @@
-package com.dh.cltf.rcp.app.perspective;
+package com.dh.cltf.rcp.perspective;
 
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;

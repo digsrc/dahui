@@ -1,4 +1,4 @@
-package com.dh.cltf.rcp.app.view;
+package com.dh.cltf.rcp.view;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

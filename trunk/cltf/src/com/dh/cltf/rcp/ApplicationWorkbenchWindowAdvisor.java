@@ -1,4 +1,4 @@
-package com.dh.cltf.rcp.app;
+package com.dh.cltf.rcp;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.Point;
@@ -19,19 +19,20 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         return new ApplicationActionBarAdvisor(configurer);
     }
     
-    public void preWindowOpen() {
+	@SuppressWarnings("restriction")
+	public void preWindowOpen() {
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
         configurer.setInitialSize(new Point(1200, 800));
-        configurer.setShowCoolBar(true);
-        configurer.setShowStatusLine(false);
-        configurer.setShowMenuBar(true);
+        configurer.setShowCoolBar(true);		// If to show tool bar.
+        configurer.setShowStatusLine(false);	// If to show status bar.
+        configurer.setShowMenuBar(true);		
         configurer.setShowPerspectiveBar(true);
         configurer.setShowProgressIndicator(true);
+        configurer.setTitle(RcpConstant.CLTF_WINDOW_TITLE);		// Window's Title.
         
         IPreferenceStore store = PrefUtil.getAPIPreferenceStore();
         store.setValue(IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR, 
         		IWorkbenchPreferenceConstants.TOP_RIGHT);
-        
-        configurer.setTitle("Hello RCP");
+       
     }
 }
