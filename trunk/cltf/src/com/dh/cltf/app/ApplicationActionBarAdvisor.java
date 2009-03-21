@@ -18,7 +18,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
-import com.dh.cltf.Activator;
+import com.dh.cltf.rcp.Activator;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
