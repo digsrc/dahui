@@ -1,10 +1,9 @@
-package com.dh.cltf.rcp.app;
+package com.dh.cltf.rcp;
 
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-import com.dh.cltf.rcp.RcpConstant;
 
 public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 

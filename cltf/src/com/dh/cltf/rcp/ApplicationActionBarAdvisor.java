@@ -1,4 +1,4 @@
-package com.dh.cltf.rcp.app;
+package com.dh.cltf.rcp;
 
 
 import org.eclipse.jface.action.Action;
@@ -18,8 +18,6 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
-import com.dh.cltf.rcp.Activator;
-import com.dh.cltf.rcp.RcpConstant;
 
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
@@ -45,18 +43,22 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     }
 
     protected void fillMenuBar(IMenuManager menuBar) {
-    	IMenuManager fileMenu = new MenuManager("File(&F)", IWorkbenchActionConstants.M_FILE);
-    	IMenuManager persMenu = new MenuManager("Perspective(&P)");
-    	IMenuManager helpMenu = new MenuManager("Help(&H)", IWorkbenchActionConstants.M_HELP);
+    	IMenuManager fileMenu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
+    	IMenuManager windowsMenu = new MenuManager("&Windows");
+    	IMenuManager helpMenu = new MenuManager("&Help", IWorkbenchActionConstants.M_HELP);
     	
     	menuBar.add(fileMenu);
-    	menuBar.add(persMenu);
+    	menuBar.add(windowsMenu);
     	menuBar.add(helpMenu);
     	
     	fileMenu.add(newWindowAction);
     	fileMenu.add(new Separator());
     	fileMenu.add(quitAction);
+    	
+    	IMenuManager persMenu = new MenuManager("&Open Perspective");
     	persMenu.add(consolePersAction);
+    	windowsMenu.add(persMenu);
+    	
     	helpMenu.add(aboutAction);
     }
     

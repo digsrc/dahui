@@ -1,4 +1,4 @@
-package com.dh.cltf.rcp.app.view;
+package com.dh.cltf.rcp.view;
 
 public interface ILogListener {
 	
