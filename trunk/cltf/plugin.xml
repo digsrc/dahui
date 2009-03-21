@@ -7,7 +7,7 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="com.dh.cltf.app.Application">
+               class="com.dh.cltf.rcp.app.Application">
          </run>
       </application>
    </extension>
@@ -15,23 +15,23 @@
          point="org.eclipse.ui.perspectives">
       <perspective
             name="Console Perspective"
-            class="com.dh.cltf.app.perspective.ConsolePerspective"
-            id="com.dh.cltf.app.ConsolePerspective">
+            class="com.dh.cltf.rcp.app.perspective.ConsolePerspective"
+            id="com.dh.cltf.rcp.app.ConsolePerspective">
       </perspective>
    </extension>
    
    <extension point="org.eclipse.ui.views">
-   		<category name="console" id="com.dh.cltf.app.view">
+   		<category name="console" id="com.dh.cltf.rcp.app.view">
    		</category>
    		<view name="Navigator View" 
-   			  category="com.dh.cltf.app.view"
-   			  class="com.dh.cltf.app.view.NavigatorView"
-   			  id="com.dh.cltf.app.view.NavigatorView">
+   			  category="com.dh.cltf.rcp.app.view"
+   			  class="com.dh.cltf.rcp.app.view.NavigatorView"
+   			  id="com.dh.cltf.rcp.app.view.NavigatorView">
    		</view>
    		<view name="Device Console View" 
-   			  category="com.dh.cltf.app.view"
-   			  class="com.dh.cltf.app.view.DeviceConsoleView"
-   			  id="com.dh.cltf.app.view.DeviceConsoleView">
+   			  category="com.dh.cltf.rcp.app.view"
+   			  class="com.dh.cltf.rcp.app.view.DeviceConsoleView"
+   			  id="com.dh.cltf.rcp.app.view.DeviceConsoleView">
    		</view>   		
    </extension>
 
