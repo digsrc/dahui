@@ -38,7 +38,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	register(aboutAction);
     	register(newWindowAction);
     	
-    	consolePersAction = new ConsolePersAction();
+    	consolePersAction = new ConsolePerspectiveAction();
     	register(consolePersAction);
     }
 
@@ -72,11 +72,17 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	
     }
     
-    
-    private static class ConsolePersAction extends Action {
-    	public ConsolePersAction() {
-    		setId("ACTION_CONSOLE_PERSPECTIVE");
+    /**
+     * The inner static class for the action to open 'Console perspective'.
+     * 
+     * @author Dahui
+     *
+     */
+    private static class ConsolePerspectiveAction extends Action {
+    	public ConsolePerspectiveAction() {
+    		setId(RcpConstant.ID_ACTION_CONSOLE_PERSPECTIVE);
     		setText("Console");
+    		setActionDefinitionId(RcpConstant.ID_COMMAND_CONSOLE_PERSPECTIVE);
     	}
     	
     	public void run() {

@@ -10,4 +10,10 @@ public class RcpConstant {
 	
 	public static final String NAVIGATOR_VIEW_ID = "com.dh.cltf.rcp.view.NavigatorView";
 	public static final String DEVICE_CONSOLE_VIEW_ID = "com.dh.cltf.rcp.view.DeviceConsoleView";
+	
+	public static final String ID_ACTION_CONSOLE_PERSPECTIVE = "ACTION_CONSOLE_PERSPECTIVE";
+	
+	public static final String ID_COMMAND_CONSOLE_PERSPECTIVE = "com.dh.cltf.rcp.perspective.ConsolePerspective"; 
+		
+		
 }
