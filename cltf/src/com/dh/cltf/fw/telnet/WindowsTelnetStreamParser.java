@@ -183,7 +183,7 @@ public class WindowsTelnetStreamParser implements IReceiverListener {
 //		this.in = in;
 //	}
 
-	public void setOut(PrintStream out) {
-		this.out = out;
-	}
+//	public void setOut(PrintStream out) {
+//		this.out = out;
+//	}
 }
