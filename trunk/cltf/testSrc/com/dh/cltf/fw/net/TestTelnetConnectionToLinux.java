@@ -10,32 +10,32 @@ import org.junit.Test;
 
 import com.dh.cltf.fw.AppException;
 import com.dh.cltf.fw.command.TelnetCommand;
+import com.dh.cltf.fw.device.ITelnetServer;
+import com.dh.cltf.fw.device.LinuxTelnetServer;
+import com.dh.cltf.fw.device.TelnetableDevice;
 import com.dh.cltf.fw.telnet.WindowsTelnetStreamParser;
 
-public class TestTelnetConnection {
-	private static String ip;
-	private static int port;
-	private static String userName;
-	private static String password;
+public class TestTelnetConnectionToLinux {
 	
+	private static ITelnetServer server = null;
+	private static TelnetableDevice device = null;
 	private static TelnetConnection telnetConnection = null;
 	private static WindowsTelnetStreamParser commandResultParser = new WindowsTelnetStreamParser();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		ip = "192.168.242.128";
-		port = 23;
+		server = new LinuxTelnetServer();
 		
-		telnetConnection = new TelnetConnection(ip, port);
-		telnetConnection.addReceiverLisetner(commandResultParser);
+		device = new TelnetableDevice("dahuiCentOS", "192.168.242.128", 23, "root", "password");
+		device.setTelnetServer(server);
+		
+		telnetConnection = new TelnetConnection(device);		
+		telnetConnection.addReceiverLisetener(commandResultParser);
 	}
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		while (telnetConnection.getState() != ConnectionStateEnum.CLOSE) {
-			Thread.sleep(2000);
-		}
-		telnetConnection.close();
+
 	}
 
 	@Before
@@ -54,20 +54,18 @@ public class TestTelnetConnection {
 	 * @throws AppException
 	 */
 	@Test
-	public void testCreateTelnetConnection() throws AppException {
-		
+	public void testTelnetConnection() throws AppException {
 		telnetConnection.open();
-
 		assertEquals(telnetConnection.getState(), ConnectionStateEnum.CONNECTED);
 	}
 
 	@Test
-	public void testTelnetLogin() throws AppException {
-		
-		TelnetCommand command = new TelnetCommand("");
-//		
-//		telnetConnection.send(message);
-//		
-//		telnetConnection.disconnect();
+	public void testLs() {
+		telnetConnection.sendAndWaitResponse("ls");
+	}
+	
+	@Test
+	public void testClose() throws AppException {
+		telnetConnection.close();
 	}
 }
