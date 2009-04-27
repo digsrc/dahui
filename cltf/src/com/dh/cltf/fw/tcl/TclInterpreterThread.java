@@ -26,7 +26,7 @@ public class TclInterpreterThread extends Thread {
     private volatile boolean isStop = false;
     
     /** running flag */
-    private volatile boolean isRunning = true;
+    private volatile boolean isRunning = false;
     
     /**
      * run method.
@@ -34,6 +34,8 @@ public class TclInterpreterThread extends Thread {
     public void run() {
         interp = new Interp();
         try {
+        	isRunning = true;
+        	
             while (!isStop && !Thread.interrupted()) {
                 interp.getNotifier().doOneEvent(TCL.ALL_EVENTS);
             }

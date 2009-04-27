@@ -1,5 +1,7 @@
 package com.dh.cltf.fw.tcl;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
@@ -22,6 +24,9 @@ import tcl.lang.TclException;
 public class TclExecutor {
 	private static final Log LOG = LogFactory.getLog(TclExecutor.class);
 	
+	
+	private String name;
+	
 	private static Hashtable<String, TclExecutor> tclExecutors = new Hashtable<String, TclExecutor>();
 	
 	/** TCL interpreter */
@@ -36,10 +41,19 @@ public class TclExecutor {
 	 * @param name executor name.
 	 */
 	private TclExecutor(String name) {
+		this.name = name;
 		startInterpreterThread(name);
 	}
 	
-	
+	/**
+	 * Get name.
+	 * @return name
+	 */
+	public String getName() {
+		return name;
+	}
+
+
 	/**
 	 * Start the TCL processor thread.
 	 * @param name executor name.
@@ -67,11 +81,39 @@ public class TclExecutor {
 	/**
 	 * Close executor and its interpreter thread.
 	 */
-	public void dispose() {
-		tclInterpThread.setStop(true);
-		tclInterpThread.interrupt();
+	public static void dispose(String name) {
+		synchronized (tclExecutors) {
+			TclExecutor executor = tclExecutors.remove(name);
+			executor.tclInterpThread.setStop(true);
+			executor.tclInterpThread.interrupt();
+			executor.execute("puts \" interpreter[" + executor.getName() + "] closed.\"");
+		}
 	}
 	
+	public void dispose() {
+		synchronized (tclExecutors) {
+			tclExecutors.remove(name);
+		}
+		
+		tclInterpThread.setStop(true);
+		tclInterpThread.interrupt();
+		// TCL intperpreter's notifier's doOneEvent() is blocked if no event to be processed.
+		// so, we feed it with a event.
+		execute("puts \" interpreter[" + name + "] closed.\"");
+	}
+	
+	public static void disposeAll() {
+		synchronized (tclExecutors) {
+			Collection<TclExecutor> exes = tclExecutors.values();
+			for (TclExecutor e: exes) {
+				tclExecutors.remove(e.getName());
+				e.tclInterpThread.setStop(true);
+				e.tclInterpThread.interrupt();
+				
+				e.execute("puts \" interpreter[" + e.getName() + "] closed.\"");
+			}
+		}
+	}
 	
 	/**
 	 * Is TCL interpreter closed.
@@ -81,6 +123,18 @@ public class TclExecutor {
 	public boolean isTclInterpClosed() {
 		return tclInterpThread.isRunning();
 	}
+	
+	
+	public static String executeTclFile(String name, String tclFile) {
+		TclExecutor executor = getTclExecutor(name);
+		return executor.executeTclFile(tclFile);
+	}
+	
+	public static String execute(String name, String command) {
+		TclExecutor executor = getTclExecutor(name);
+		return executor.execute(command);
+	}
+	
 	
 	/**
 	 * Execute TCL file.
@@ -150,7 +204,7 @@ public class TclExecutor {
 	 * 
 	 * @return executor
 	 */
-	public TclExecutor getTclExecutor() {
+	public static TclExecutor getTclExecutor() {
 		return getTclExecutor("default");
 	}
 	
