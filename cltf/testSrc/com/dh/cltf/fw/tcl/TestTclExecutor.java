@@ -38,12 +38,6 @@ public class TestTclExecutor {
 		executorA.dispose();
 		executorB.dispose();
 		
-		// TCL intperpreter's notifier's doOneEvent() is blocked if no event to be processed.
-		// so, we feed it with a event.
-		executorA.execute("puts \"close me A\"");
-		executorB.execute("puts \"close me B\"");
-		
-		
 		// TCL interpreter runs in another thread, so we need some time to wait it finishing stop.
 		final int sleepTime = 200;
 		Thread.sleep(sleepTime);
