@@ -229,7 +229,7 @@ public class TelnetConnection implements IConnection {
 		
 		synchronized (responseBuf) {	
 			responseBuf.notifyAll();
-			while (! result.endsWith("# ")){
+			while (! result.endsWith(">")){
 				try {
 					responseBuf.wait(TIMEOUT);
 					result += responseBuf.toString();
@@ -239,7 +239,7 @@ public class TelnetConnection implements IConnection {
 				}
 			}
 		}
-		result = processData(result);
+		//result = processData(result);
 		Log.debug(result);
 		return result;
 	}
