@@ -64,7 +64,7 @@ public class TestTelnetConnectionToXP {
 	@Test
 	public void testDir() {
 		String result = null;
-		final int count = 2;
+		final int count = 4;
 		
 		for (int i = 0; i < count; i ++) {
 			result = telnetConnection.sendAndWaitResponse("dir");
