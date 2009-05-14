@@ -32,7 +32,12 @@
    			  category="com.dh.cltf.rcp.view"
    			  class="com.dh.cltf.rcp.view.DeviceConsoleView"
    			  id="com.dh.cltf.rcp.view.DeviceConsoleView">
-   		</view>   		
+   		</view>
+   		<view name="Devices List View" 
+   			  category="com.dh.cltf.rcp.view"
+   			  class="com.dh.cltf.rcp.view.DeviceView"
+   			  id="com.dh.cltf.rcp.view.DeviceView">
+   		</view>  
    </extension>
 
 	<extension point="org.eclipse.ui.commands">
@@ -50,5 +55,11 @@
 			commandId="com.dh.cltf.rcp.perspective.ConsolePerspective"
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
 			sequence="CTRL+ALT+C"/>			
+	</extension>
+	
+	<extension point="org.eclipse.ui.actionSets">
+	    <actionSet>
+	    	<menu></menu>
+	    </actionSet>
 	</extension>
 </plugin>
