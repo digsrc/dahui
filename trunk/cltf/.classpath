@@ -37,5 +37,11 @@
 	<classpathentry kind="lib" path="lib/commons-cli-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-discovery-20030211.213356.jar"/>
+	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/itcl.jar"/>
+	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/jacl.jar"/>
+	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/janino.jar"/>
+	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/tclblend.jar"/>
+	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/tcljava.jar"/>
+	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/tjc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

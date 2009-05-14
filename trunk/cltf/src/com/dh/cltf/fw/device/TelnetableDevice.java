@@ -6,9 +6,9 @@ package com.dh.cltf.fw.device;
  * @author Dahui
  *
  */
-public class TelnetableDevice {
+public class TelnetableDevice implements IDevice {
 
-	private String name;
+	private String deviceName;
 	
 	private String ip;
 	
@@ -25,9 +25,9 @@ public class TelnetableDevice {
 		this.telnetServer = telnetServer;
 	}
 	
-	public TelnetableDevice(String name, String ip, int port,
+	public TelnetableDevice(String deviceName, String ip, int port,
 			String loginId, String password) {
-		this.name = name;
+		this.deviceName = deviceName;
 		this.ip = ip;
 		this.port = port;
 		this.loginId = loginId;
@@ -40,12 +40,12 @@ public class TelnetableDevice {
 		this.telnetServer = telnetServer;
 	}
 
-	public String getName() {
-		return name;
+	public String getDeviceName() {
+		return deviceName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
 	}
 
 	public String getIp() {
@@ -86,6 +86,12 @@ public class TelnetableDevice {
 
 	public void setTelnetServer(ITelnetServer telnetServer) {
 		this.telnetServer = telnetServer;
+	}
+
+
+
+	public DeviceTypeEnum getDeviceType() {
+		return DeviceTypeEnum.TELNETABLE_DEVICE;
 	}
 	
 	

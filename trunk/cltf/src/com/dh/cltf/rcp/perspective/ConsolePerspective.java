@@ -16,5 +16,8 @@ public class ConsolePerspective implements IPerspectiveFactory {
 		
 		IFolderLayout bottom = layout.createFolder("bottom", IPageLayout.BOTTOM, 0.5f, "left");
 		bottom.addView(RcpConstant.DEVICE_CONSOLE_VIEW_ID);
+		
+		IFolderLayout right = layout.createFolder("right", IPageLayout.RIGHT, 0.5f, "left");
+		right.addView(RcpConstant.DEVICE_LIST_VIEW_ID);
 	}
 }
