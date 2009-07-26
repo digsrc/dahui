@@ -56,10 +56,11 @@
 			schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
 			sequence="CTRL+ALT+C"/>			
 	</extension>
-	
+	<!--
 	<extension point="org.eclipse.ui.actionSets">
 	    <actionSet>
 	    	<menu></menu>
 	    </actionSet>
 	</extension>
+	-->
 </plugin>
