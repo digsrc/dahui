@@ -9,5 +9,12 @@
 	<bean id="defaultTclExecutor" factory-bean="tclExecutorFactory"	factory-method="getTclExecutor">
 		<constructor-arg value="defaultTclExecutor"/> 
 	</bean>
+	
+	<bean id="executorA" factory-bean="tclExecutorFactory"	factory-method="getTclExecutor">
+		<constructor-arg value="TclInterpreter-A"/> 
+	</bean>
+	<bean id="executorB" factory-bean="tclExecutorFactory"	factory-method="getTclExecutor">
+		<constructor-arg value="TclInterpreter-B"/> 
+	</bean>
 
 </beans>

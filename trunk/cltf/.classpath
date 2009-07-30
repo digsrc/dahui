@@ -5,8 +5,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test/src"/>
+	<classpathentry kind="src" path="test/config"/>
 	<classpathentry kind="src" path="config"/>
-	<classpathentry kind="src" path="testSrc"/>
 	<classpathentry kind="lib" path="lib/junit-4.5.jar" sourcepath="3rdSrc/junit-4.5-src.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/cltf/3rdSrc/junit-4.5-src.jar!/"/>
@@ -43,5 +44,13 @@
 	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/tclblend.jar"/>
 	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/tcljava.jar"/>
 	<classpathentry kind="lib" path="lib/TclBlend/lib/tcljava1.4.1/tjc.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.context-3.0.0.M3.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.context.support-3.0.0.M3.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.core-3.0.0.M3.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.test-3.0.0.M3.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.beans-3.0.0.M3.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.asm-3.0.0.M3.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.expression-3.0.0.M3.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-runtime-3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
