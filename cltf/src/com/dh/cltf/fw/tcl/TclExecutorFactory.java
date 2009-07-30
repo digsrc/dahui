@@ -21,13 +21,13 @@ import tcl.lang.TclException;
  * @author Yuan Dahui.
  *
  */
-public class TclExecutor {
-	private static final Log LOG = LogFactory.getLog(TclExecutor.class);
+public class TclExecutorFactory {
+	private static final Log LOG = LogFactory.getLog(TclExecutorFactory.class);
 	
 	
 	private String name;
 	
-	private static Hashtable<String, TclExecutor> tclExecutors = new Hashtable<String, TclExecutor>();
+	private static Hashtable<String, TclExecutorFactory> tclExecutors = new Hashtable<String, TclExecutorFactory>();
 	
 	/** TCL interpreter */
 	private Interp tclInterpreter;
@@ -40,7 +40,7 @@ public class TclExecutor {
 	 * Constructor. Create and start the interpreter's process thread.
 	 * @param name executor name.
 	 */
-	private TclExecutor(String name) {
+	private TclExecutorFactory(String name) {
 		this.name = name;
 		startInterpreterThread(name);
 	}
@@ -83,7 +83,7 @@ public class TclExecutor {
 	 */
 	public static void dispose(String name) {
 		synchronized (tclExecutors) {
-			TclExecutor executor = tclExecutors.remove(name);
+			TclExecutorFactory executor = tclExecutors.remove(name);
 			executor.tclInterpThread.setStop(true);
 			executor.tclInterpThread.interrupt();
 			executor.execute("puts \" interpreter[" + executor.getName() + "] closed.\"");
@@ -104,8 +104,8 @@ public class TclExecutor {
 	
 	public static void disposeAll() {
 		synchronized (tclExecutors) {
-			Collection<TclExecutor> exes = tclExecutors.values();
-			for (TclExecutor e: exes) {
+			Collection<TclExecutorFactory> exes = tclExecutors.values();
+			for (TclExecutorFactory e: exes) {
 				tclExecutors.remove(e.getName());
 				e.tclInterpThread.setStop(true);
 				e.tclInterpThread.interrupt();
@@ -126,12 +126,12 @@ public class TclExecutor {
 	
 	
 	public static String executeTclFile(String name, String tclFile) {
-		TclExecutor executor = getTclExecutor(name);
+		TclExecutorFactory executor = getTclExecutor(name);
 		return executor.executeTclFile(tclFile);
 	}
 	
 	public static String execute(String name, String command) {
-		TclExecutor executor = getTclExecutor(name);
+		TclExecutorFactory executor = getTclExecutor(name);
 		return executor.execute(command);
 	}
 	
@@ -204,7 +204,7 @@ public class TclExecutor {
 	 * 
 	 * @return executor
 	 */
-	public static TclExecutor getTclExecutor() {
+	public static TclExecutorFactory getTclExecutor() {
 		return getTclExecutor("default");
 	}
 	
@@ -215,10 +215,10 @@ public class TclExecutor {
 	 * @param name executor name.
 	 * @return executor
 	 */
-	public static TclExecutor getTclExecutor(String name) {
+	public static TclExecutorFactory getTclExecutor(String name) {
 		synchronized (tclExecutors) {
 			if (tclExecutors.get(name) == null) {
-				tclExecutors.put(name, new TclExecutor(name));
+				tclExecutors.put(name, new TclExecutorFactory(name));
 			}
 			return tclExecutors.get(name);		
 		}
@@ -236,12 +236,12 @@ public class TclExecutor {
 	 * @param args arguments
 	 */
 	public static void main(String[] args) {
-		TclExecutor e = new TclExecutor("MyTcl");
+		TclExecutorFactory e = new TclExecutorFactory("MyTcl");
 		for (int i = 0; i < 2; i ++) {
 			e.execute("puts \"abc1\"");
 			e.execute("puts \"abc2\"");
 		}
-		TclExecutor e2 = new TclExecutor("tester");
+		TclExecutorFactory e2 = new TclExecutorFactory("tester");
 		for (int i = 0; i < 3; i ++) {
 			e2.execute("puts \"123a\"");
 			e2.execute("puts \"123b\"");
