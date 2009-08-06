@@ -1,7 +1,6 @@
 package com.dh.cltf.fw.tcl;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
@@ -11,6 +10,7 @@ import tcl.lang.Interp;
 import tcl.lang.TCL;
 import tcl.lang.TclEvent;
 import tcl.lang.TclException;
+import tcl.lang.TclObject;
 
 
 /**
@@ -35,6 +35,7 @@ public class TclExecutorFactory {
 
 	/** Thread to run the TCL interperter's event processor */
 	private TclInterpreterThread tclInterpThread;
+	
 	
 	/**
 	 * Constructor. Create and start the interpreter's process thread.
@@ -121,7 +122,7 @@ public class TclExecutorFactory {
 	 * @return is TCL interpreter closed.
 	 */
 	public boolean isTclInterpClosed() {
-		return tclInterpThread.isRunning();
+		return ! tclInterpThread.isRunning();
 	}
 	
 	
@@ -177,14 +178,19 @@ public class TclExecutorFactory {
 	public String execute(final String command) {
         final StringBuffer result = new StringBuffer();
 
+        
         TclEvent event = new TclEvent() {
             public int processEvent(int flags) {
                 try {
-                	LOG.debug(command);
+                	LOG.debug("tcl(in)>" + command);
             		tclInterpreter.eval(command);
-                    result.append(tclInterpreter.getResult().toString());
                 } catch (TclException ex) {
-                    LOG.warn(ex);
+                    //LOG.warn(ex + "  ---  " + ex.getMessage());
+                } finally {
+                	TclObject tclResult = tclInterpreter.getResult();
+            		if ( tclResult != null ) {
+            			result.append(tclResult.toString());
+            		}
                 }
                 return 1;
 	    }
@@ -196,6 +202,7 @@ public class TclExecutorFactory {
         // Wait for event to be processed by the other thread.
         event.sync();
 
+        LOG.debug("tcl(out)>" + result);
         return result.toString();
 	}
 
@@ -210,7 +217,9 @@ public class TclExecutorFactory {
 	
 	
 	/**
-	 * Get a named TCL executor.
+	 * Get a named TCL executor. 
+	 * If the named TCL executor does not exist, it will be created.
+	 * This is a factory method.
 	 * 
 	 * @param name executor name.
 	 * @return executor

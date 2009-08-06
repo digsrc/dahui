@@ -1,0 +1,11 @@
+<j:jelly xmlns:j="jelly:core" xmlns:define="jelly:define" xmlns:cltf="myTagLib">
+
+  <define:taglib uri="myTagLib">
+    <define:jellybean name="WindowsXP" className="com.dh.cltf.fw.script.RemoteCommand"/>
+  </define:taglib>
+
+  Now lets use the new tag
+  
+  <cltf:WindowsXP command="2" y="cheese"/>
+
+</j:jelly>
