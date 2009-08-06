@@ -26,10 +26,10 @@ public class TclExecutorTests {
 	private final static Log LOG = LogFactory.getLog(TclExecutorTests.class);
 	
 	@Autowired
-	private TclExecutorFactory executorA; // = TclExecutorFactory.getTclExecutor("TclInterpreter-A");
+	private TclExecutor executorA; // = TclExecutorFactory.getTclExecutor("TclInterpreter-A");
 	
 	@Autowired
-	private TclExecutorFactory executorB; // = TclExecutorFactory.getTclExecutor("TclInterpreter-B");
+	private TclExecutor executorB; // = TclExecutorFactory.getTclExecutor("TclInterpreter-B");
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -82,8 +82,9 @@ public class TclExecutorTests {
 		assertFalse(executorA.isTclInterpClosed());
 		assertFalse(executorB.isTclInterpClosed());
 		
-		executorA.dispose();
-		executorB.dispose();
+		TclExecutorManager.getInstance().dispose(executorA.getName());
+		TclExecutorManager.getInstance().dispose(executorB.getName());
+
 		LOG.debug("testStopTclExecutor()   " + executorA.isTclInterpClosed());
 		
 		// TCL interpreter runs in another thread, so we need some time to wait it finishing stop.
