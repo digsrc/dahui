@@ -22,7 +22,7 @@ public class StcScriptTest {
 	private final static Log LOG = LogFactory.getLog(TclExecutorTests.class);
 	
 	@Autowired
-	private TclExecutorFactory stcTclExecutor;
+	private TclExecutorManager stcTclExecutor;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

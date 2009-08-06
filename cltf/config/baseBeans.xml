@@ -6,6 +6,8 @@
 		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd">
 
 
-	<bean id="tclExecutorFactory" class="com.dh.cltf.fw.tcl.TclExecutorFactory" factory-method="getTclExecutor" />
+	<bean id="tclExecutorManager"
+	      class="com.dh.cltf.fw.tcl.TclExecutorManager"
+	      factory-method="getInstance"/>
 
 </beans>
