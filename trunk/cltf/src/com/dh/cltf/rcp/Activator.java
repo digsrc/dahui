@@ -1,6 +1,7 @@
 package com.dh.cltf.rcp;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.IWorkbenchPreferenceConstants;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
@@ -55,6 +56,12 @@ public class Activator extends AbstractUIPlugin {
 	
 	public static void showPerspective(String perspectiveId) {
 		try {
+	        String pbar = "com.dh.cltf.rcp.ConsolePerspective,default";
+			PlatformUI.getPreferenceStore().setDefault(IWorkbenchPreferenceConstants.PERSPECTIVE_BAR_EXTRAS, pbar);
+			PlatformUI.getPreferenceStore().setValue(IWorkbenchPreferenceConstants.PERSPECTIVE_BAR_EXTRAS, pbar);
+	        PlatformUI.getPreferenceStore().setDefault(IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR,IWorkbenchPreferenceConstants.TOP_RIGHT);
+	        PlatformUI.getPreferenceStore().setDefault(IWorkbenchPreferenceConstants.SHOW_TEXT_ON_PERSPECTIVE_BAR,"true"); 
+	        
 			IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 			PlatformUI.getWorkbench().showPerspective(perspectiveId, window);
 		}catch(WorkbenchException e) {
