@@ -26,10 +26,10 @@ public class TclExecutorTests {
 	private final static Log LOG = LogFactory.getLog(TclExecutorTests.class);
 	
 	@Autowired
-	private TclExecutor executorA; // = TclExecutorFactory.getTclExecutor("TclInterpreter-A");
+	private TclExecutor executorA;
 	
 	@Autowired
-	private TclExecutor executorB; // = TclExecutorFactory.getTclExecutor("TclInterpreter-B");
+	private TclExecutor executorB;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -51,12 +51,22 @@ public class TclExecutorTests {
 		assertFalse(isSameNotifier);
 	}
 	
+	@Test
+	public void testTclInfo() {
+		executorA.execute("puts [info procs]");
+		executorA.execute("puts [info library]");
+		executorA.execute("puts [info globals]");
+		executorA.execute("puts [info loaded]");
+		executorA.execute("puts [info tclversion]");
+	}
 	
 	/**
 	 * Set the variable in different TCL interpreter.
 	 */
 	@Test
 	public void testSetVariable() {
+		executorA.execute("puts \"tcl_platform(platform) = $tcl_platform(platform)\"");
+		
 		String result = null;
 		String variableValue = "bbb";
 		

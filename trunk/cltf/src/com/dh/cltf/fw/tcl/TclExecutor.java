@@ -80,12 +80,16 @@ public class TclExecutor {
                 try {
                 	String fileName = tclFile.replace('\\', '/');
                     tclInterpreter.evalFile(fileName);
-                    result.append(tclInterpreter.getResult().toString());
                 } catch (TclException ex) {
                     LOG.warn(ex);
+                } finally {
+                	TclObject tclResult = tclInterpreter.getResult();
+                	if (tclResult != null) {
+                		result.append(tclResult.toString());
+                	}
                 }
                 return 1;
-	    }
+            }
         };
 
         // Add event to TCL Event Queue in other thread
