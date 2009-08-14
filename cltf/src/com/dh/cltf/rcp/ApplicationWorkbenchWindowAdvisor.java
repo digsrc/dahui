@@ -3,6 +3,7 @@ package com.dh.cltf.rcp;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IWorkbenchPreferenceConstants;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
@@ -29,10 +30,5 @@ public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
         configurer.setShowPerspectiveBar(true);
         configurer.setShowProgressIndicator(true);
         configurer.setTitle(RcpConstant.CLTF_WINDOW_TITLE);		// Window's Title.
-        
-        IPreferenceStore store = PrefUtil.getAPIPreferenceStore();
-        store.setValue(IWorkbenchPreferenceConstants.DOCK_PERSPECTIVE_BAR, 
-        		IWorkbenchPreferenceConstants.TOP_RIGHT);
-       
     }
 }
